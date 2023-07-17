@@ -1,0 +1,25 @@
+import requests
+import json
+from typing import Dict, Any, List
+
+url = "https://api.axur.com"
+"email": "email@email.com"
+"password": "mysecretpassword"
+
+# Função para obter o token de autenticação
+def get_token(username: str, password: str) -> str:
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "email": username,
+        "password": password
+    }
+
+    response = requests.post(f"{url}/gateway/1.0/api/identity/session", json=payload, headers=headers)
+
+    if response.status_code == 200:
+        return response.json()["token"]
+    else:
+        raise Exception(f"Erro na autenticação: {response.status_code} {response.text}")
